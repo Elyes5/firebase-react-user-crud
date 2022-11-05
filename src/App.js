@@ -1,36 +1,44 @@
 import './App.css';
 import { db } from './firebase-config';
-import { useState,useEffect,useContext } from 'react';
+import React,{ useState,useEffect,useContext } from 'react';
 import { collection,getDocs } from 'firebase/firestore'
+import Spinner from 'react-bootstrap/Spinner';
 import Card from 'react-bootstrap/Card';
 import ModalExample from './ModalExample';
 import ModalDelete from './ModalDelete';
+import { BrowserRouter as Router, Route,Routes } from 'react-router-dom';
 import ModalUpdate from './ModalUpdate';
-import InputToggle from './InputToggle';
 import ThemeContextProvider from './ThemeContext';
+import SignUp from './SignUp';
+import Navbar from './Navbar';
 import { ThemeContext } from './ThemeContext';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext, AuthProvider } from './AuthContext';
+import LogIn from './LogIn';
 function MainComponent({getUsers,users}){
-  const {theme} = useContext(ThemeContext)
-  return (
-
-      <div className={theme ? "bg-light w-100 min-h-100-vh" : "bg-dark-blue min-h-100-vh"}>
-  
+  var { theme } = useContext(ThemeContext)
+  let  { currentUser,loading }  = useContext(AuthContext)
+  const navigate = useNavigate();
+  useEffect(() => { 
+    if (!currentUser){
+      navigate('/signup')
+    }
+  }, [loading]);
+    return (
+      
+      <div className={theme ? "bg-white w-100 min-h-100-vh" : "bg-dark-blue min-h-100-vh"}>
+        {!loading && currentUser ? (<div>
         <div className="d-flex w-100 align-items-center justify-content-between">
-        
         <ModalExample addUserRealTime={() => getUsers()}/>
-       
-        <InputToggle />
-  
+        
         </div>
         <h5 className={theme ? "d-flex justify-content-center align-items-center text-dark" : "d-flex justify-content-center align-items-center text-light"}>
-          Done with <i class="devicon-firebase-plain colored"></i> <i class="devicon-react-original colored"></i> <i class="devicon-bootstrap-plain colored"></i>
+          Done with <i className="devicon-firebase-plain colored"></i> <i className="devicon-react-original colored"></i> <i className="devicon-bootstrap-plain colored"></i>
         </h5>
         {
         users.length > 0 ?( 
         <div>
-        {
-        
-        users.map((user) => {
+        { users.map((user) => {
           
           return(<div  key={user.id} className="me-5 ms-5 mt-2">
             <UserCard  name={user.name} age={user.age} id={user.id} getUsers={()=>getUsers()}></UserCard>
@@ -41,7 +49,14 @@ function MainComponent({getUsers,users}){
       (<div className="mt-2">
           <NoUserCard/>
       </div>)}
-      
+      </div>)
+      :
+      <div>
+         <Spinner animation="border" role="status" variant="primary">
+            <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+}
       </div>
 
     );
@@ -91,9 +106,19 @@ useEffect(() =>{
   getUsers();
 },[])  
 return(
+  <AuthProvider>
   <ThemeContextProvider>
-  <MainComponent getUsers={() => getUsers()} users={users}/>
+    <Router>
+      <Navbar></Navbar>
+      <Routes>
+        <Route exact path="/home" element={<MainComponent getUsers={() => getUsers()} users={users}/>}></Route>
+        <Route exact path="/signup" element={<SignUp></SignUp>}></Route>
+        <Route exact path="/signin" element={<LogIn></LogIn>}></Route>
+      </Routes>
+    </Router>
+    
   </ThemeContextProvider>
+  </AuthProvider>
 )
 }
 

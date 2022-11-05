@@ -3,6 +3,7 @@
 }
 .bg-dark-blue{
     background-color :hsl(207, 26%, 17%) !important;
+    transition:0.3s;
  }
 .elem-dark-blue{
       background : hsl(209, 23%, 22%) !important;
@@ -15,8 +16,30 @@
 }
 .elem-light{
     transition:0.3s;
-    background:rgb(247, 246, 246)
+    background:ghostwhite
 }
 .min-h-100-vh{
     min-height: 100vh;
 }
+.bg-gray{
+    background-color:ghostwhite;
+    transition:0.3s;
+}
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background : hsl(209, 23%, 60%) !important;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: hsl(209, 23%, 30%) !important;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }

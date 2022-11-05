@@ -4,6 +4,8 @@ import { db } from './firebase-config';
 import Modal from 'react-bootstrap/Modal';
 import {ThemeContext} from './ThemeContext';
 import Form from 'react-bootstrap/Form';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import './App.css';
 import { updateDoc,doc } from "firebase/firestore"
 function ModalUpdate({id,name,age,getUsers}) {
@@ -23,13 +25,11 @@ function ModalUpdate({id,name,age,getUsers}) {
   const handleShow = () => setShow(true);
   return (
     <>
-      <span className="cursor-pointer" onClick={handleShow}>
-      ✎
-      </span>
-
+      <FontAwesomeIcon icon={faEdit} onClick={() => handleShow()} className={"cursor-pointer " + (theme ? 'me-2 text-dark' : 'me-2 text-light')} />
+          
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton className={theme ? "text-dark bg-light" : "text-light elem-dark-blue-lighter"}>
-          <Modal.Title>Update the user</Modal.Title>
+          <Modal.Title><FontAwesomeIcon icon={faEdit} /> Update the user</Modal.Title>
         </Modal.Header>
         <Modal.Body className={theme ? 'text-dark elem-light' : 'elem-dark-blue text-light'}>
         <Form.Label column sm="2">

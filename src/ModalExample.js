@@ -5,6 +5,8 @@ import Modal from 'react-bootstrap/Modal';
 import {ThemeContext} from './ThemeContext';
 import Form from 'react-bootstrap/Form';
 import './App.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { addDoc,collection } from "firebase/firestore"
 export function ModalExample({addUserRealTime}) {
   const {theme}= useContext(ThemeContext);
@@ -31,12 +33,12 @@ export function ModalExample({addUserRealTime}) {
   return (
     <>
       <Button variant="primary" className="mt-3 ms-5" onClick={handleShow}>
-        Create User
+      <FontAwesomeIcon icon={faUser}/> Create User
       </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton className={theme ? "text-dark bg-light" : "text-light elem-dark-blue-lighter"}>
-          <Modal.Title>Create a user</Modal.Title>
+          <Modal.Title><FontAwesomeIcon icon={faUser} /> Create a user</Modal.Title>
         </Modal.Header>
         <Modal.Body className={theme ? 'text-dark elem-light' : 'elem-dark-blue text-light'}>
         <Form.Label column sm="2">
